@@ -1,0 +1,10 @@
+Exos FilRouge Node JS vers Express JS :
+Prévoir un serveur Http pour un petit site de vente de produits chinois
+ce petit serveur devra prendre en compte une page d'acceuil, avec une gestion de l'url / et /acceuil
+il devra également donner la possibilité d'avoir une page de contact
+il devra aussi avoir une url prévue pour les grandes catégorie du site
+ainsi que des sous catégorie, qui elle même donnerons accès aux produits du site.
+les url pour la partie produits se construira comme ceci : 
+localhost:3000/categ/subcateg/product?categID=1&subcategID=2&productID=3
+
+ps : chaque page devra renvoier un micro code HTML avec juste un title h1
