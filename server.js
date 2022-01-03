@@ -1,6 +1,5 @@
 const http = require("http")
 const url = require("url")
-const PORT = 3000
 
 const server = http.createServer((req, res) => {
     console.log(req.method)
@@ -66,4 +65,4 @@ const server = http.createServer((req, res) => {
 
 
 
-server.listen(PORT, console.log("Le serveur écoute sur le port 3000"))
+server.listen(process.env.PORT || 3000, console.log("Le serveur écoute sur le port 3000"))
