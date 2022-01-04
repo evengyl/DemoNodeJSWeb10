@@ -35,13 +35,13 @@ const server = http.createServer((req, res) => {
         {
             //je traite le formulaire ici
             //et puis je redirige mon client vers autre part.
-            statusCode = 307
+            statusCode = 303
             head = { "Location" : "/"}
 
 
             // statusCode 302 -> redirection standard
-            // 303 -> passer de get à post puis redirger vers le meme lien en get 
-            // 307 -> passer de get à post puis redirger vers un autre lien en get 
+            // 307 -> passer de get à post puis redirger vers le meme lien en post 
+            // 303 -> passer de get à post puis redirger vers un autre lien en get 
         }
     }
 
