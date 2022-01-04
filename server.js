@@ -1,43 +1,98 @@
-const http = require("http") //contient le package http utilisé pour créer le serveur web
-const url = require("url") // package permettant la tranformation de req.url en un objet plus pratique et utilisable
+const http = require("http")
+const url = require("url")
 
 
-const server = http.createServer((req, res) => { //crée le servuer http, celui ci vous renvoie une callback avec req et res
-//req pour request -> entrée des demandes client vers serveur
-//res pour response -> sortie de la requète du servuer vers le client
+const server = http.createServer((req, res) => {
 
-    let urlParse = url.parse(req.url) //fonction me permettant de parser l'url en objet utilisable
-    /* ex : localhost:3000/url1/url2?maquery=tutu&maquery2=toto
-    donnera :   pathname : /url1/url2
-                query : { maquery : 'tutu', maquery2 : 'toto'}
+    let urlParse = url.parse(req.url, true)
 
-    */
+    console.log(urlParse)
+    let contentRes = ""
+    let statusCode = 500
 
-    let statusCode = 404 //je prépare les status code http de réponse du serveur à l'avance
-    let contentRes = "" // ainsi que le contenu de la réponse, tout ça pour les rendre plus dynamique
-
-    if(urlParse.pathname == '/url1/url2') //grace au parsage de mon url, je peux mtn tester les params de route
+    if(urlParse.pathname == "/" || urlParse.pathname == "/accueil")
     {
-        statusCode = 200 //status 200 signifie OK tout vas bien 
-        contentRes = "<h1>je suis au bon endroit pour url1 et url2</h1>" //petit message
+        statusCode = 200
+        contentRes = `<h1>Page d'accueil</h1>
+        <a href='/categs'>Vers les catégories principales</a>`
     }
-    else {
-        statusCode = 404 //si je n'ai pas matcher dans mes if, les params envoyé, alors mon serveur ne connais pas
-        //cette route, alors je retourne une erreur 404
-        contentRes = "Attention cette page/demande n'existe pas..." //avec une petit message
+    else if(urlParse.pathname == "/contact")
+    {
+        statusCode = 200
+        contentRes = "<h1>Page de contact</h1>"
+    }
+    else if(urlParse.pathname.includes("/categs")) 
+    {
+
+        if(urlParse.pathname.includes("/subcategs")) 
+        {
+
+            if(urlParse.pathname.includes("/products"))
+            {
+                if(urlParse.query.productID)//localhost:3000/categs/subcategs/products?categID=1&subcategID=2&productID=42
+                {
+                    statusCode = 200
+                    contentRes = `<h1>Vous êtes sur un produit</h1>
+                    <p>Categ principale : ${urlParse.query.categID}</p>
+                    <p>Categ secondaire : ${urlParse.query.subcategID}</p>
+                    <p>Produit sélectionné : ${urlParse.query.productID}<p>`
+                }
+                else //localhost:3000/categs/subcategs/products?categID=1&subcategID=2
+                {
+                    statusCode = 200
+                    contentRes = `<h1>Vous êtes sur la liste des produits</h1>
+                    <p>Categ principale : ${urlParse.query.categID}</p>
+                    <p>Categ secondaire : ${urlParse.query.subcategID}</p>
+                    <ul>
+                        <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=${urlParse.query.subcategID}&productID=1">Product 1</a></li>
+                        <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=${urlParse.query.subcategID}&productID=2">Product 2</a></li>
+                        <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=${urlParse.query.subcategID}&productID=3">Product 3</a></li>
+                        <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=${urlParse.query.subcategID}&productID=4">Product 4</a></li>
+                    </ul>
+                    `
+                }
+                
+            }
+            else//localhost:3000/categs/subcategs?categID=1
+            {
+                statusCode = 200
+                contentRes = `<h1>Vous êtes sur les catégories secondaires</h1>
+                <p>Categ principale : ${urlParse.query.categID}</p>
+                <ul>
+                    <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=1">Subcateg 1</a></li>
+                    <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=2">Subcateg 2</a></li>
+                    <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=3">Subcateg 3</a></li>
+                    <li><a href="/categs/subcategs/products?categID=${urlParse.query.categID}&subcategID=4">Subcateg 4</a></li>
+                </ul>
+                `
+            }
+        }
+        else //localhost:3000/categs
+        {
+            statusCode = 200
+            contentRes = `<h1>Vous êtes sur les catégories principales</h1>
+            <ul>
+                <li><a href="/categs/subcategs?categID=1">Categ principale 1</a></li>
+                <li><a href="/categs/subcategs?categID=2">Categ principale 2</a></li>
+                <li><a href="/categs/subcategs?categID=3">Categ principale 3</a></li>
+                <li><a href="/categs/subcategs?categID=4">Categ principale 4</a></li>
+            </ul>`
+            
+        }
+    }
+    else
+    {
+        statusCode = 404
+        contentRes = "<h1>Oops, page non trouvée</h1>"
     }
 
-    //je peux maintenant définir ma reponse au client, en disant
-    //le status et tel, et j'encode ma réponse en utf-8 et en text ou html (headers)
+
+
+    //localhost:3000/categ/subcateg/product?categID=1&subcategID=2&productID=3
+
     res.writeHead(statusCode, { "Content-Type" : "text/html; charset=utf-8" })
-    res.write(contentRes) // voila ma réponse (body)
-    res.end() //cloture la requète et renvoie la réponse au client
-    
+    res.write(contentRes)
+    res.end()
 })
 
-//PS : pour accèder au "code source" des méthodes et prop du système
-// -> crtl + click sur la méthode
-// -> f12 sur la méthode
-// click droit -> go to definition sur la méthode
-
-server.listen(3000) // permet la mise sur écoute du serveur http sur le port 3000
+server.listen(3000)

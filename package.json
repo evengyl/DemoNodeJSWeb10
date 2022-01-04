@@ -7,14 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/evengyl/DemoNodeJSWeb10.git"
-  },
   "author": "Loïc Baudoux",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/evengyl/DemoNodeJSWeb10/issues"
-  },
-  "homepage": "https://github.com/evengyl/DemoNodeJSWeb10#readme"
+  "license": "ISC"
 }
