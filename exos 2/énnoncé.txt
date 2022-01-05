@@ -13,3 +13,8 @@ un simple fs.readFile fera largement l'affaire.
 
 dans ce même readFile, décomposer l'objet json obtenu, en 
 affichage console propre.
+
+Pour celle qui aurait terminé
+Tenter d'intégré votre JSon, dans le serveur principale
+PS : vous pouvez également éssayer de faire des fichier html
+avec les fs.readfile
