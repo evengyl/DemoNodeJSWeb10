@@ -1,0 +1,15 @@
+Créer un fichier JSON, 
+contenant Max 100 lignes,
+cet objet devra contenir au minimum 3 descentes d'objets
+rappel { } --> objet
+rappel [ ] --> tableau
+rappel [ {}, {}, {} ] --> tableau d'objet
+
+Créer ensuite un fichier serveur, pour node.
+(n'oubliez pas le package.json pour le bon fonctionnement)
+
+comme vu pour le rappelJson, pas besoin de createServer, 
+un simple fs.readFile fera largement l'affaire.
+
+dans ce même readFile, décomposer l'objet json obtenu, en 
+affichage console propre.
