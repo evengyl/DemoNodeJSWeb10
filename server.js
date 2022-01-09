@@ -11,6 +11,7 @@ const server = http.createServer((req, res) => {
     let statusCode = 500
     let head = { "Content-Type" : "text/html; charset=utf-8" }
 
+    console.log(urlParse)
     if(req.method == "GET")
     {
         if(urlParse.pathname == "/" || urlParse.pathname == "/accueil")
