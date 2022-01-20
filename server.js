@@ -44,6 +44,7 @@ const server = http.createServer((req, res) => {
 
                 if(urlParse.pathname.includes("/products"))
                 {
+                                                //localhost:3000/products/categs/toto/subcategs?categID=1&subcategID=2&productID=42
                     if(urlParse.query.productID)//localhost:3000/categs/subcategs/products?categID=1&subcategID=2&productID=42
                     {
                         statusCode = 200
